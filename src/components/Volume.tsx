@@ -1,9 +1,9 @@
 import "../styles/volume.css"
 
 export interface VolumeProps {
-  /** How large should the button be? */
+  /** How large should the ranger be? */
   size?: "small" | "medium" | "large"
-  /** Button contents */
+  /** Ranger contents */
   label: string
   /** Optional click handler */
   onClick?: () => void
