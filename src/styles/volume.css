@@ -1,0 +1,9 @@
+.storybook-volume--small {
+  font-size: 12px;
+}
+.storybook-volume--medium {
+  font-size: 14px;
+}
+.storybook-volume--large {
+  font-size: 16px;
+}
