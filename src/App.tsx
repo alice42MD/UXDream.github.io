@@ -1,7 +1,11 @@
-import "./App.css"
+import { Volume } from "./components/Volume"
 
-function App() {
-  return <></>
+const App = () => {
+  return (
+    <>
+      <Volume />
+    </>
+  )
 }
 
 export default App

@@ -1,5 +1,4 @@
 import type { Meta, StoryObj } from "@storybook/react"
-import { fn } from "@storybook/test"
 
 import { Volume } from "../components/Volume"
 
@@ -10,7 +9,6 @@ const meta = {
     layout: "centered",
   },
   tags: ["autodocs"],
-  args: { onClick: fn() },
 } satisfies Meta<typeof Volume>
 
 export default meta
