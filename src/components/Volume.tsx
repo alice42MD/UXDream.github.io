@@ -5,14 +5,12 @@ import "../styles/volume.css"
 export interface VolumeProps {
   /** How large should the slider be? */
   size?: "small" | "medium" | "large"
-  /** slider contents */
-  label?: string
   /** Optional change value handler */
   onChange?: () => void
 }
 
 /** Primary UI component for user interaction */
-export const Volume = ({ size = "medium", label, ...props }: VolumeProps) => {
+export const Volume = ({ size = "medium", ...props }: VolumeProps) => {
   const [value, setValue] = useState<number>(0)
 
   return (
