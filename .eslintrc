@@ -1,0 +1,48 @@
+{
+  "parser": "@typescript-eslint/parser",
+  "root": true,
+  "plugins": [
+    "react",
+    "jsx-a11y",
+    "react-hooks"
+  ],
+  "extends": [
+    "/eslint-config",
+    "react-app"
+  ],
+  "parserOptions": {
+    "project": "./tsconfig.json"
+  },
+  "globals": {
+    "expect": true,
+    "describe": true,
+    "it": true,
+    "fixture": true,
+    "test": true,
+    "jest": true,
+    "document": true,
+    "window": true,
+    "fetch": true,
+    "navigator": true
+  },
+  "rules": {
+    "react-hooks/rules-of-hooks": "error",
+    "react-hooks/exhaustive-deps": "warn",
+    "@typescript-eslint/no-misused-promises": [
+      "error",
+      {
+        "checksVoidReturn": false
+      }
+    ],
+    "@typescript-eslint/no-non-null-assertion": "off"
+  },
+  "ignorePatterns": [
+    "*.otf",
+    "*.ttf",
+    "*.less",
+    "__tests__",
+    "__mocks__",
+    "vite.config.ts",
+    "e2e"
+  ]
+}
