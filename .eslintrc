@@ -7,7 +7,6 @@
     "react-hooks"
   ],
   "extends": [
-    "eslint-config",
     "react-app"
   ],
   "parserOptions": {
