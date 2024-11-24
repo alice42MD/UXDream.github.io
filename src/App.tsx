@@ -13,6 +13,10 @@ const App = () => {
           <div>Click click click</div>
           <Volume ui="clickToDeath" />
         </>
+        <>
+          <div>Tilt</div>
+          <Volume ui="tilt" />
+        </>
       </div>
     </>
   )
