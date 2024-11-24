@@ -1,13 +1,14 @@
 import { useEffect, useState } from "react"
 import _ from "lodash"
 import { Button, Slider } from "antd"
+import { TiltEffect } from "./TiltElement"
 import { StyledSlider } from "../styles/Volume"
 
 export interface SliderComponentProps {
   value: number
 }
 
-const SliderComponent = ({ value }: SliderComponentProps) => (
+export const SliderComponent = ({ value }: SliderComponentProps) => (
   <StyledSlider data-testid="slider-component">
     <Slider value={value} />
     <div data-testid="slider-value">{value}</div>
@@ -15,7 +16,7 @@ const SliderComponent = ({ value }: SliderComponentProps) => (
 )
 
 export interface VolumeProps {
-  ui: "randomize" | "clickToDeath"
+  ui: "randomize" | "clickToDeath" | "tilt"
 }
 
 const Volume = ({ ui }: VolumeProps) => {
@@ -51,25 +52,33 @@ const Volume = ({ ui }: VolumeProps) => {
     }
   }, [state.isDecreasing, ui])
 
-  return (
-    <>
-      <SliderComponent value={state.value} />
-      {ui === "randomize" && (
-        <Button data-testid="randomize-button" onClick={onClickRandomizeButton}>
-          Click
-        </Button>
-      )}
-      {ui === "clickToDeath" && (
-        <Button
-          data-testid="clickToDeath-button"
-          onMouseLeave={onMouseLeave}
-          onClick={onClickToDeath}
-        >
-          Click
-        </Button>
-      )}
-    </>
-  )
+  const renderContent = () => {
+    if (ui === "tilt") return <TiltEffect />
+    return (
+      <>
+        <SliderComponent value={state.value} />
+        {ui === "randomize" && (
+          <Button
+            data-testid="randomize-button"
+            onClick={onClickRandomizeButton}
+          >
+            Click
+          </Button>
+        )}
+        {ui === "clickToDeath" && (
+          <Button
+            data-testid="clickToDeath-button"
+            onMouseLeave={onMouseLeave}
+            onClick={onClickToDeath}
+          >
+            Click
+          </Button>
+        )}
+      </>
+    )
+  }
+
+  return <>{renderContent()}</>
 }
 
 export default Volume
