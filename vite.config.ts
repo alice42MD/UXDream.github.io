@@ -9,5 +9,9 @@ export default defineConfig({
     globals: true, 
     environment: 'jsdom',
     setupFiles: './setupTest.tsx',
+    coverage: {
+      provider: 'istanbul', // or 'v8'
+      reporter: ['html'],
+    },
   },
 })
