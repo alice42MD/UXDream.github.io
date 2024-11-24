@@ -63,10 +63,19 @@ const Volume = ({ ui }: VolumeProps) => {
       <>
         <SliderComponent value={state.value} />
         {ui === "randomize" && (
-          <Button onClick={onClickRandomizeButton}>Click</Button>
+          <Button
+            data-testid="randomize-button"
+            onClick={onClickRandomizeButton}
+          >
+            Click
+          </Button>
         )}
         {ui === "clickToDeath" && (
-          <Button onMouseLeave={onMouseLeave} onClick={onClickToDeath}>
+          <Button
+            data-testid="clickToDeath-button"
+            onMouseLeave={onMouseLeave}
+            onClick={onClickToDeath}
+          >
             Click
           </Button>
         )}

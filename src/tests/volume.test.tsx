@@ -81,3 +81,11 @@ describe("ClickToDeath Volume", () => {
     expect(Number(sliderValueDec)).toBe(0)
   })
 })
+
+describe("Tilt wrapped Volume", () => {
+  it("should render the component Slider with a tilt wrapper", () => {
+    const { getByTestId } = render(<Volume ui="tilt" />)
+    expect(getByTestId("slider-component")).toBeInTheDocument()
+    expect(getByTestId("tilt-wrapper")).toBeInTheDocument()
+  })
+})
