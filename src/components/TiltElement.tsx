@@ -1,53 +1,58 @@
-import { throttle } from "lodash"
-import { useState, MouseEvent, useCallback, useMemo } from "react"
+import { useState, useEffect } from "react"
 import { StyledTilt } from "../styles/Volume"
+import { SliderComponent } from "./Volume"
 
-export const TiltEffect = ({
-  children,
-  onTiltElement,
-}: {
-  children?: JSX.Element
-  onTiltElement: (value: number) => void
-}) => {
+export const TiltEffect = () => {
   const [rotate, setRotate] = useState({ x: 0, y: 0 })
   const [value, setValue] = useState(0)
+  const [intervalId, setIntervalId] = useState<number | null>(null)
 
-  const throttledMouseMove = useCallback(
-    (e: MouseEvent<HTMLDivElement>) => {
-      const card = e.currentTarget
-      if (!card) return
-      const box = card.getBoundingClientRect()
+  useEffect(() => {
+    const tiltElem = document.getElementById("tilt")
+    if (!tiltElem) return
+
+    const box = tiltElem.getBoundingClientRect()
+
+    const startIncrement = (e: MouseEvent) => {
       const x = e.clientX - box.left
       const centerX = box.width / 2
       const rotateX = 0.25
 
-      if ((x >= centerX && value < 100) || (x <= centerX && value > 0)) {
-        const newValue = x >= centerX ? value + 1 : value - 1
-        setValue(newValue)
-        setRotate({ x: rotateX, y: x >= centerX ? 10 : -10 })
-        onTiltElement?.(newValue)
+      const id = setInterval(() => {
+        setValue((prevValue) => {
+          const newValue = x >= centerX ? prevValue + 1 : prevValue - 1
+          const clampedValue = Math.max(0, Math.min(100, newValue))
+
+          if (prevValue === clampedValue) return prevValue
+
+          setRotate({ x: rotateX, y: x >= centerX ? 10 : -10 })
+          return clampedValue
+        })
+      }, 100)
+      setIntervalId(id as unknown as number)
+    }
+
+    const stopIncrement = () => {
+      setRotate({ x: 0, y: 0 })
+      if (intervalId) {
+        clearInterval(intervalId)
+        setIntervalId(null)
       }
-    },
-    [value, onTiltElement]
-  )
+    }
 
-  const onMouseMove = useMemo(
-    () => throttle(throttledMouseMove, 16),
-    [throttledMouseMove]
-  )
+    tiltElem.addEventListener("mouseenter", startIncrement)
+    tiltElem.addEventListener("mouseleave", stopIncrement)
 
-  const onMouseLeave = () => {
-    setRotate({ x: 0, y: 0 })
-  }
+    return () => {
+      tiltElem.removeEventListener("mouseenter", startIncrement)
+      tiltElem.removeEventListener("mouseleave", stopIncrement)
+      if (intervalId) clearInterval(intervalId)
+    }
+  }, [intervalId])
 
   return (
-    <StyledTilt
-      data-testid="tilt-wrapper"
-      rotate={rotate}
-      onMouseMove={onMouseMove}
-      onMouseLeave={onMouseLeave}
-    >
-      {children}
+    <StyledTilt id="tilt" data-testid="tilt-wrapper" rotate={rotate}>
+      <SliderComponent value={value} />
     </StyledTilt>
   )
 }

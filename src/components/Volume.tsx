@@ -8,7 +8,7 @@ export interface SliderComponentProps {
   value: number
 }
 
-const SliderComponent = ({ value }: SliderComponentProps) => (
+export const SliderComponent = ({ value }: SliderComponentProps) => (
   <StyledSlider data-testid="slider-component">
     <Slider value={value} />
     <div data-testid="slider-value">{value}</div>
@@ -53,12 +53,7 @@ const Volume = ({ ui }: VolumeProps) => {
   }, [state.isDecreasing, ui])
 
   const renderContent = () => {
-    if (ui === "tilt")
-      return (
-        <TiltEffect onTiltElement={setValue}>
-          <SliderComponent value={state.value} />
-        </TiltEffect>
-      )
+    if (ui === "tilt") return <TiltEffect />
     return (
       <>
         <SliderComponent value={state.value} />
