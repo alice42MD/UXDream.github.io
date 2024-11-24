@@ -9,6 +9,10 @@ const App = () => {
           <div>Random</div>
           <Volume ui="randomize" />
         </>
+        <>
+          <div>Click click click</div>
+          <Volume ui="clickToDeath" />
+        </>
       </div>
     </>
   )
