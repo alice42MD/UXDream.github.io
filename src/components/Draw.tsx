@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react"
 import _ from "lodash"
-import { StyledDraw } from "../styles/Volume"
+import { StyledDraw } from "../styles/styleVolume"
 
 const getpPercentageColoredPixel = (
   e: MouseEvent,

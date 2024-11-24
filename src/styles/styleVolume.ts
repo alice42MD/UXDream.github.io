@@ -28,3 +28,8 @@ export const StyledDraw= styled.div`
   background: rgba(0, 0, 0, 0.04);
 }
 `
+/* //scream */
+export const StyledOpenMic = styled.div`
+  display: flex;
+  flex-flow: column-reverse;
+`

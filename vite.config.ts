@@ -13,5 +13,13 @@ export default defineConfig({
       provider: 'istanbul', // or 'v8'
       reporter: ['html'],
     },
+    deps: {
+      optimizer: {
+        ssr: {
+          enabled: true,
+          include: ["@vitest/ui"],
+        }
+      }
+    }
   },
 })

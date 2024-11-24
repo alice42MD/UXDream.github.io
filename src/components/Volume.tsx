@@ -2,7 +2,7 @@ import { useEffect, useState } from "react"
 import _ from "lodash"
 import { Button, Slider } from "antd"
 import { TiltEffect } from "./TiltElement"
-import { StyledSlider } from "../styles/Volume"
+import { StyledSlider } from "../styles/styleVolume"
 import { Draw } from "./Draw"
 
 export interface SliderComponentProps {
