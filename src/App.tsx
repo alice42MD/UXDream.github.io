@@ -17,6 +17,10 @@ const App = () => {
           <div>Tilt</div>
           <Volume ui="tilt" />
         </>
+        <>
+          <div>Draw</div>
+          <Volume ui="draw" />
+        </>
       </div>
     </>
   )

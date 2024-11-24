@@ -1,6 +1,6 @@
+import { act, fireEvent, render } from "@testing-library/react"
 import { describe, it, expect, vi } from "vitest"
 import Volume from "../components/Volume"
-import { act, fireEvent, render, screen } from "@testing-library/react"
 import "@testing-library/jest-dom"
 
 describe("Randomize Volume", () => {
@@ -15,25 +15,13 @@ describe("Randomize Volume", () => {
     const handleClick = vi.fn()
     const button = getByTestId("randomize-button")
     button.onclick = handleClick // Assign the function directly
+
     act(() => {
       fireEvent.click(button)
     })
+
+    expect(getByTestId("slider-value").textContent).not.toBe("0")
     expect(handleClick).toHaveBeenCalledTimes(1)
-  })
-
-  it("should return a number !=  && > 0", () => {
-    const { getByTestId } = render(<Volume ui="randomize" />)
-
-    const sliderValue = getByTestId("slider-value").textContent
-    expect(Number(sliderValue)).toBe(0)
-
-    const button = getByTestId("randomize-button")
-    act(() => {
-      fireEvent.click(button)
-    })
-    const newSliderValue = getByTestId("slider-value").textContent
-    expect(Number(newSliderValue)).not.toBe(0)
-    expect(Number(newSliderValue)).toBeGreaterThan(0)
   })
 })
 
@@ -44,41 +32,53 @@ describe("ClickToDeath Volume", () => {
     expect(getByTestId("clickToDeath-button")).toBeInTheDocument()
   })
 
-  it("trigger a call when click button or onMouseLeave", () => {
+  it("trigger a call when click button or onMouseLeave", async () => {
     const { getByTestId } = render(<Volume ui="clickToDeath" />)
+
+    const button = getByTestId("clickToDeath-button")
+
     const handleClick = vi.fn()
     const handleMouseLeave = vi.fn()
-    const button = getByTestId("clickToDeath-button")
     button.onclick = handleClick // Assign the function directly
     button.onmouseleave = handleMouseLeave
+
+    expect(getByTestId("slider-value").textContent).toBe("0")
+
     act(() => {
       fireEvent.click(button)
     })
+
     expect(handleClick).toHaveBeenCalledTimes(1)
+    expect(getByTestId("slider-value").textContent).toBe("1")
+
     act(() => {
       fireEvent.mouseLeave(button)
     })
+
+    await new Promise((r) => setTimeout(r, 2000))
+
+    expect(getByTestId("slider-value").textContent).toBe("0")
     expect(handleMouseLeave).toHaveBeenCalledTimes(1)
   })
 
   it("should decrease value onMouseLeave", async () => {
     const { getByTestId } = render(<Volume ui="clickToDeath" />)
-
-    const sliderValue = getByTestId("slider-value").textContent
-    expect(Number(sliderValue)).toBe(0)
-
     const button = getByTestId("clickToDeath-button")
+
+    expect(getByTestId("slider-value").textContent).toBe("0")
+
     act(() => {
       fireEvent.click(button)
     })
-    const sliderValueInc = getByTestId("slider-value").textContent
-    expect(Number(sliderValueInc)).toBe(1)
+
+    expect(getByTestId("slider-value").textContent).toBe("1")
+
     act(() => {
       fireEvent.mouseLeave(button)
     })
     await new Promise((r) => setTimeout(r, 2000))
-    const sliderValueDec = getByTestId("slider-value").textContent
-    expect(Number(sliderValueDec)).toBe(0)
+
+    expect(getByTestId("slider-value").textContent).toBe("0")
   })
 })
 
@@ -89,32 +89,17 @@ describe("Tilt wrapped Volume", () => {
     expect(getByTestId("tilt-wrapper")).toBeInTheDocument()
   })
 
-  it("should trigger call on mouseMove and mouseLeave wrapper", async () => {
-    const { getByTestId } = render(<Volume ui="tilt" />)
-    const handleMouseMove = vi.fn()
-    const handleMouseLeave = vi.fn()
-    const tiltWrapper = getByTestId("tilt-wrapper")
-    tiltWrapper.onmousemove = handleMouseMove // Assign the function directly
-    tiltWrapper.onmouseleave = handleMouseLeave
-    act(() => {
-      fireEvent.mouseMove(tiltWrapper)
-    })
-    expect(handleMouseMove).toHaveBeenCalledTimes(1)
-    act(() => {
-      fireEvent.mouseLeave(tiltWrapper)
-    })
-    expect(handleMouseLeave).toHaveBeenCalledTimes(1)
-  })
-
   it("should inc when mouse on > width/2 and should dec when mouse on < width/2", async () => {
     const { getByTestId } = render(<Volume ui="tilt" />)
 
     const tiltWrapper = getByTestId("tilt-wrapper")
-    const sliderValue = getByTestId("slider-value").textContent
-    expect(Number(sliderValue)).toBe(0)
 
-    const handleMouseMove = vi.fn()
-    tiltWrapper.onmousemove = handleMouseMove
+    expect(getByTestId("slider-value").textContent).toBe("0")
+
+    const handleMouseEnter = vi.fn()
+    const handleMouseLeave = vi.fn()
+    tiltWrapper.onmouseenter = handleMouseEnter
+    tiltWrapper.onmouseleave = handleMouseLeave
 
     vi.spyOn(tiltWrapper, "getBoundingClientRect").mockReturnValue({
       width: 200,
@@ -134,16 +119,18 @@ describe("Tilt wrapped Volume", () => {
         clientY: 4,
       })
     })
+
     await new Promise((r) => setTimeout(r, 100))
-    screen.debug()
-    const newIncSliderValue = getByTestId("slider-value").textContent
-    expect(Number(newIncSliderValue)).toBe(1)
+
+    expect(handleMouseEnter).toHaveBeenCalledTimes(1)
+    expect(getByTestId("slider-value").textContent).toBe("1")
 
     act(() => {
       fireEvent.mouseLeave(tiltWrapper)
     })
-    const newSliderValue = getByTestId("slider-value").textContent
-    expect(Number(newSliderValue)).toBe(1)
+
+    expect(handleMouseLeave).toHaveBeenCalledTimes(1)
+    expect(getByTestId("slider-value").textContent).toBe("1")
 
     act(() => {
       fireEvent.mouseEnter(tiltWrapper, {
@@ -151,8 +138,10 @@ describe("Tilt wrapped Volume", () => {
         clientY: 4,
       })
     })
+
     await new Promise((r) => setTimeout(r, 100))
-    const newDecSliderValue = getByTestId("slider-value").textContent
-    expect(Number(newDecSliderValue)).toBe(0)
+
+    expect(handleMouseEnter).toHaveBeenCalledTimes(2)
+    expect(getByTestId("slider-value").textContent).toBe("0")
   })
 })

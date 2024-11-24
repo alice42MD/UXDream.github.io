@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react"
-import { StyledTilt } from "../styles/Volume"
+import { StyledTilt } from "../styles/styleVolume"
 import { SliderComponent } from "./Volume"
 
 export const TiltEffect = () => {

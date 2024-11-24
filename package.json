@@ -11,7 +11,7 @@
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build",
     "test:unit": "vitest --ui --root src/",
-    "coverage": "vitest run --coverage.enabled=true  --host"
+    "coverage": "vitest run --coverage.enabled=true"
   },
   "dependencies": {
     "antd": "^5.22.1",
