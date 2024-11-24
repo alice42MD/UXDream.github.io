@@ -8,9 +8,9 @@ export interface SliderComponentProps {
 }
 
 const SliderComponent = ({ value }: SliderComponentProps) => (
-  <StyledSlider>
+  <StyledSlider data-testid="slider-component">
     <Slider value={value} />
-    <div>{value}</div>
+    <div data-testid="slider-value">{value}</div>
   </StyledSlider>
 )
 
@@ -25,13 +25,15 @@ const Volume = ({ ui }: VolumeProps) => {
   })
 
   const setValue = (value: number) => setState((prev) => ({ ...prev, value }))
-  const onClickRandomizeButton = () => setValue(_.random(0, 100, false))
+  const onClickRandomizeButton = () => setValue(_.random(1, 100, false))
 
   return (
     <>
       <SliderComponent value={state.value} />
       {ui === "randomize" && (
-        <Button onClick={onClickRandomizeButton}>Click</Button>
+        <Button data-testid="randomize-button" onClick={onClickRandomizeButton}>
+          Click
+        </Button>
       )}
     </>
   )
