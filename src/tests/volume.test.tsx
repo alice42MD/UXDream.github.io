@@ -43,4 +43,41 @@ describe("ClickToDeath Volume", () => {
     expect(getByTestId("slider-component")).toBeInTheDocument()
     expect(getByTestId("clickToDeath-button")).toBeInTheDocument()
   })
+
+  it("trigger a call when click button or onMouseLeave", () => {
+    const { getByTestId } = render(<Volume ui="clickToDeath" />)
+    const handleClick = vi.fn()
+    const handleMouseLeave = vi.fn()
+    const button = getByTestId("clickToDeath-button")
+    button.onclick = handleClick // Assign the function directly
+    button.onmouseleave = handleMouseLeave
+    act(() => {
+      fireEvent.click(button)
+    })
+    expect(handleClick).toHaveBeenCalledTimes(1)
+    act(() => {
+      fireEvent.mouseLeave(button)
+    })
+    expect(handleMouseLeave).toHaveBeenCalledTimes(1)
+  })
+
+  it("should devrease value onMouseLeave", async () => {
+    const { getByTestId } = render(<Volume ui="clickToDeath" />)
+
+    const sliderValue = getByTestId("slider-value").textContent
+    expect(Number(sliderValue)).toBe(0)
+
+    const button = getByTestId("clickToDeath-button")
+    act(() => {
+      fireEvent.click(button)
+    })
+    const sliderValueInc = getByTestId("slider-value").textContent
+    expect(Number(sliderValueInc)).toBe(1)
+    act(() => {
+      fireEvent.mouseLeave(button)
+    })
+    await new Promise((r) => setTimeout(r, 2000))
+    const sliderValueDec = getByTestId("slider-value").textContent
+    expect(Number(sliderValueDec)).toBe(0)
+  })
 })
