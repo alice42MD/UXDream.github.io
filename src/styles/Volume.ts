@@ -18,3 +18,13 @@ export const StyledTilt = styled.div<StyledTiltProps>`
   transform: ${({ rotate }) => `rotate(${rotate.x}deg) rotate(${rotate.y}deg)`};
   transition: transform 400ms cubic-bezier(0.03, 0.98, 0.52, 0.99) 0s;
   `
+
+  /* //draw */
+export const StyledDraw= styled.div`
+#myPics {
+  width: 200px;
+  height: 4px;
+  border-radius: 3px;
+  background: rgba(0, 0, 0, 0.04);
+}
+`
