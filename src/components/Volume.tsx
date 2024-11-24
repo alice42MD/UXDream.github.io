@@ -60,7 +60,11 @@ const Volume = ({ ui }: VolumeProps) => {
         </Button>
       )}
       {ui === "clickToDeath" && (
-        <Button onMouseLeave={onMouseLeave} onClick={onClickToDeath}>
+        <Button
+          data-testid="clickToDeath-button"
+          onMouseLeave={onMouseLeave}
+          onClick={onClickToDeath}
+        >
           Click
         </Button>
       )}

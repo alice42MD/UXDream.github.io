@@ -3,7 +3,7 @@ import Volume from "../components/Volume"
 import { act, fireEvent, render } from "@testing-library/react"
 import "@testing-library/jest-dom"
 
-describe(" Randomize Volume", () => {
+describe("Randomize Volume", () => {
   it("should render the component Slider with a randomize button", () => {
     const { getByTestId } = render(<Volume ui="randomize" />)
     expect(getByTestId("slider-component")).toBeInTheDocument()
@@ -34,5 +34,13 @@ describe(" Randomize Volume", () => {
     const newSliderValue = getByTestId("slider-value").textContent
     expect(Number(newSliderValue)).not.toBe(0)
     expect(Number(newSliderValue)).toBeGreaterThan(0)
+  })
+})
+
+describe("ClickToDeath Volume", () => {
+  it("should render the component Slider with a randomize button", () => {
+    const { getByTestId } = render(<Volume ui="clickToDeath" />)
+    expect(getByTestId("slider-component")).toBeInTheDocument()
+    expect(getByTestId("clickToDeath-button")).toBeInTheDocument()
   })
 })
