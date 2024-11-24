@@ -28,6 +28,7 @@
   ],
   "include": [
     "src",
-    "src/stories/Volume/.stories.ts"
+    "src/stories/Volume/.stories.ts",
+    "setupTest.tsx"
   ]
 }
