@@ -1,30 +1,40 @@
 import { useState } from "react"
-import { Slider } from "antd"
-import "../styles/volume.css"
+import _ from "lodash"
+import { Button, Slider } from "antd"
+import { StyledSlider } from "../styles/Volume"
 
-export interface VolumeProps {
-  /** How large should the slider be? */
-  size?: "small" | "medium" | "large"
-  /** Optional change value handler */
-  onChange?: () => void
+export interface SliderComponentProps {
+  value: number
 }
 
-/** Primary UI component for user interaction */
-export const Volume = ({ size = "medium", ...props }: VolumeProps) => {
-  const [value, setValue] = useState<number>(0)
+const SliderComponent = ({ value }: SliderComponentProps) => (
+  <StyledSlider>
+    <Slider value={value} />
+    <div>{value}</div>
+  </StyledSlider>
+)
+
+export interface VolumeProps {
+  ui: "randomize"
+}
+
+const Volume = ({ ui }: VolumeProps) => {
+  const [state, setState] = useState({
+    value: 0,
+    isDecreasing: false,
+  })
+
+  const setValue = (value: number) => setState((prev) => ({ ...prev, value }))
+  const onClickRandomizeButton = () => setValue(_.random(0, 100, false))
 
   return (
     <>
-      <Slider
-        style={{ width: "200px" }}
-        onChange={(newValue) => setValue(newValue)}
-        range={false}
-        value={value}
-        defaultValue={0}
-        className={`storybook-volume--${size}--tilt`}
-        {...props}
-      />
-      {value}
+      <SliderComponent value={state.value} />
+      {ui === "randomize" && (
+        <Button onClick={onClickRandomizeButton}>Click</Button>
+      )}
     </>
   )
 }
+
+export default Volume

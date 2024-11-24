@@ -22,6 +22,10 @@
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true
   },
+  "typeRoots": [
+    "./node_modules/@types",
+    "./types"
+  ],
   "include": [
     "src",
     "src/stories/Volume/.stories.ts"

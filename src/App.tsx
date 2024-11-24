@@ -1,9 +1,15 @@
-import { Volume } from "./components/Volume"
+import Volume from "./components/Volume"
 
 const App = () => {
   return (
     <>
-      <Volume />
+      <h1>UI dream</h1>
+      <div>
+        <>
+          <div>Random</div>
+          <Volume ui="randomize" />
+        </>
+      </div>
     </>
   )
 }
