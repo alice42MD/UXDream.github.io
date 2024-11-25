@@ -8,10 +8,20 @@ export default defineConfig({
   test: {
     globals: true, 
     environment: 'jsdom',
-    setupFiles: './setupTest.tsx',
+    setupFiles: ['./src/tests/setupTest.tsx'],
     coverage: {
       provider: 'istanbul', // or 'v8'
       reporter: ['html'],
+      exclude: ['./src/stories', '.storybook']
     },
+    deps: {
+      optimizer: {
+        ssr: {
+          enabled: true,
+          include: ["@vitest/ui"],
+        }
+      }
+    },
+   
   },
 })

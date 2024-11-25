@@ -2,7 +2,8 @@ import { useEffect, useState } from "react"
 import _ from "lodash"
 import { Button, Slider } from "antd"
 import { TiltEffect } from "./TiltElement"
-import { StyledSlider } from "../styles/Volume"
+import { StyledSlider } from "../styles/styleVolume"
+import { Draw } from "./Draw"
 
 export interface SliderComponentProps {
   value: number
@@ -16,7 +17,7 @@ export const SliderComponent = ({ value }: SliderComponentProps) => (
 )
 
 export interface VolumeProps {
-  ui: "randomize" | "clickToDeath" | "tilt"
+  ui: "randomize" | "clickToDeath" | "tilt" | "draw"
 }
 
 const Volume = ({ ui }: VolumeProps) => {
@@ -54,6 +55,7 @@ const Volume = ({ ui }: VolumeProps) => {
 
   const renderContent = () => {
     if (ui === "tilt") return <TiltEffect />
+    else if (ui === "draw") return <Draw />
     return (
       <>
         <SliderComponent value={state.value} />

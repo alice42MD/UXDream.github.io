@@ -29,6 +29,7 @@
   "include": [
     "src",
     "src/stories/Volume/.stories.ts",
-    "setupTest.tsx"
+    "src/tests/setupTest.tsx",
+    "vite.config.ts"
   ]
 }
