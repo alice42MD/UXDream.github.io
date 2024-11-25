@@ -3,20 +3,33 @@ import _ from "lodash"
 import { StyledDraw } from "../styles/styleVolume"
 
 const getpPercentageColoredPixel = (
-  e: MouseEvent,
   myPics: HTMLCanvasElement,
   context: CanvasRenderingContext2D
 ) => {
-  const emptyImgSize = context.getImageData(
-    e.offsetX,
-    e.offsetY,
-    myPics.width,
-    myPics.height
-  ).data.length
-  const coloredImgSize = context
-    .getImageData(0, 0, myPics.width, myPics.height)
-    .data.filter((coloredPixel) => coloredPixel !== 0).length
+  const dataImg = context.getImageData(0, 0, myPics.width, myPics.height).data
+  const emptyImgSize = dataImg.length
+  const coloredImgSize = dataImg.filter(
+    (coloredPixel) => coloredPixel !== 0
+  ).length
   return _.floor((coloredImgSize * 100) / emptyImgSize)
+}
+
+const drawLine = (
+  context: CanvasRenderingContext2D,
+  x1: number,
+  y1: number,
+  x2: number,
+  y2: number
+) => {
+  context.beginPath()
+  context.lineCap = "square"
+  context.globalAlpha = 1
+  context.strokeStyle = "#91caff"
+  context.lineWidth = 2
+  context.moveTo(x1, y1)
+  context.lineTo(x2, y2)
+  context.stroke()
+  context.closePath()
 }
 
 export const Draw = () => {
@@ -40,7 +53,7 @@ export const Draw = () => {
       if (isDrawing && context) {
         drawLine(context, coord.x, coord.y, e.offsetX, e.offsetY)
         setCoord({ x: e.offsetX, y: e.offsetY })
-        const newValue = getpPercentageColoredPixel(e, myPics, context)
+        const newValue = getpPercentageColoredPixel(myPics, context)
         setValue(newValue)
       }
     }
@@ -64,28 +77,15 @@ export const Draw = () => {
     }
   }, [isDrawing, coord])
 
-  const drawLine = (
-    context: CanvasRenderingContext2D,
-    x1: number,
-    y1: number,
-    x2: number,
-    y2: number
-  ) => {
-    context.beginPath()
-    context.lineCap = "square"
-    context.globalAlpha = 1
-    context.strokeStyle = "#91caff"
-    context.lineWidth = 2
-    context.moveTo(x1, y1)
-    context.lineTo(x2, y2)
-    context.stroke()
-    context.closePath()
-  }
-
   return (
-    <StyledDraw className="parent">
-      <canvas id="myPics" width="200" height="3"></canvas>
-      <div>{value}</div>
+    <StyledDraw className="parent" data-testid={"draw-component"}>
+      <canvas
+        data-testid={"canvas-elem"}
+        id="myPics"
+        width="200"
+        height="4"
+      ></canvas>
+      <div data-testid={"canvas-elem-value"}>{value}</div>
     </StyledDraw>
   )
 }

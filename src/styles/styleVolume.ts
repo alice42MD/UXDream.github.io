@@ -21,12 +21,12 @@ export const StyledTilt = styled.div<StyledTiltProps>`
 
   /* //draw */
 export const StyledDraw= styled.div`
-#myPics {
+ #myPics {
   width: 200px;
   height: 4px;
   border-radius: 3px;
   background: rgba(0, 0, 0, 0.04);
-}
+ }
 `
 /* //scream */
 export const StyledOpenMic = styled.div`
