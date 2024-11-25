@@ -2,7 +2,7 @@ import { useState, useEffect } from "react"
 import { StyledTilt } from "../styles/styleVolume"
 import { SliderComponent } from "./Volume"
 
-export const TiltEffect = () => {
+const TiltEffect = () => {
   const [rotate, setRotate] = useState({ x: 0, y: 0 })
   const [value, setValue] = useState(0)
   const [intervalId, setIntervalId] = useState<number | null>(null)
@@ -56,3 +56,5 @@ export const TiltEffect = () => {
     </StyledTilt>
   )
 }
+
+export default TiltEffect

@@ -22,6 +22,10 @@ const App = () => {
           <Volume ui="draw" />
         </>
       </div>
+      <>
+        <div>Screaaaaaaaaaaam</div>
+        <Volume ui="scream" />
+      </>
     </>
   )
 }

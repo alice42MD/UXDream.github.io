@@ -1,9 +1,10 @@
 import { useEffect, useState } from "react"
 import _ from "lodash"
 import { Button, Slider } from "antd"
-import { TiltEffect } from "./TiltElement"
+import TiltEffect from "./TiltElement"
+import Draw from "./Draw"
+import OpenMic from "./OpenMic"
 import { StyledSlider } from "../styles/styleVolume"
-import { Draw } from "./Draw"
 
 export interface SliderComponentProps {
   value: number
@@ -17,7 +18,7 @@ export const SliderComponent = ({ value }: SliderComponentProps) => (
 )
 
 export interface VolumeProps {
-  ui: "randomize" | "clickToDeath" | "tilt" | "draw"
+  ui: "randomize" | "clickToDeath" | "tilt" | "draw" | "scream"
 }
 
 const Volume = ({ ui }: VolumeProps) => {
@@ -55,7 +56,15 @@ const Volume = ({ ui }: VolumeProps) => {
 
   const renderContent = () => {
     if (ui === "tilt") return <TiltEffect />
-    else if (ui === "draw") return <Draw />
+    if (ui === "draw") return <Draw />
+    if (ui === "scream")
+      return (
+        <>
+          <OpenMic onChange={(newValue: number) => setValue(newValue)}>
+            <SliderComponent value={state.value} />
+          </OpenMic>
+        </>
+      )
     return (
       <>
         <SliderComponent value={state.value} />
