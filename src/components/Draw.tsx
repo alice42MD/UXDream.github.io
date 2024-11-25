@@ -32,7 +32,7 @@ const drawLine = (
   context.closePath()
 }
 
-export const Draw = () => {
+const Draw = () => {
   const [value, setValue] = useState<number>(0)
   // When true, moving the mouse draws on the canvas
   const [isDrawing, setIsDrawing] = useState<boolean>(false)
@@ -89,3 +89,5 @@ export const Draw = () => {
     </StyledDraw>
   )
 }
+
+export default Draw
